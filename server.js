@@ -8,7 +8,12 @@ const { WebSocketServer } = require("ws");
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use((req, res, next) => { res.set("Cache-Control", "no-store"); next(); });
-app.use(express.static(path.join(__dirname, "public")));
+// самопошук файлів гри: корінь / public / punch_cloud — де лежить index.html, звідти й роздаємо
+const fs = require("fs");
+const candidates = [__dirname, path.join(__dirname, "public"), path.join(__dirname, "punch_cloud")];
+const staticRoot = candidates.find(d => { try { return fs.existsSync(path.join(d, "index.html")); } catch { return false; } }) || __dirname;
+console.log("static root:", staticRoot);
+app.use(express.static(staticRoot));
 app.get("/health", (_q, res) => res.json({ ok: true, rooms: rooms.size }));
 
 const server = http.createServer(app);
