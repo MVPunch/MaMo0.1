@@ -1,0 +1,9 @@
+{
+  "name": "Мамо, це не драма",
+  "short_name": "НеДрама",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#141020",
+  "theme_color": "#141020",
+  "icons": []
+}
