@@ -7,7 +7,8 @@ const { WebSocketServer } = require("ws");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
-app.use(express.static(__dirname));
+app.use((req, res, next) => { res.set("Cache-Control", "no-store"); next(); });
+app.use(express.static(path.join(__dirname, "public")));
 app.get("/health", (_q, res) => res.json({ ok: true, rooms: rooms.size }));
 
 const server = http.createServer(app);
