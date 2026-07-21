@@ -86,8 +86,8 @@ wss.on("connection", (ws) => {
         broadcast(room, { t: "state", state: m.state });
         break;
       }
-      case "pupdate": { // від гравця → ведучому, з серверним часом
-        if (!room || ws.meta.role !== "player") break;
+      case "pupdate": { // від гравця чи глядача → ведучому, з серверним часом
+        if (!room || (ws.meta.role !== "player" && ws.meta.role !== "viewer")) break;
         const c = room.clients.get(ws.meta.pid);
         send(room.host, { t: "pupdate", pid: ws.meta.pid, name: c?.name, data: m.data, ts: Date.now() });
         break;
